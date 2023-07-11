@@ -8,6 +8,7 @@ function SearchBar() {
   const [searchType, setSearchType] = useState('ingredient');
   const [searchInput, setSearchInput] = useState('');
   const frstLetter = 'first-letter';
+  const [recipes, setRecipes] = useState([]);
 
   const handleSearchTypeChange = (event) => {
     setSearchType(event.target.value);
@@ -25,34 +26,35 @@ function SearchBar() {
     }
 
     let endpoint = '';
+    let recipeType = '';
 
     if (isDrinksPage()) {
-      if (searchType === 'ingredient') {
-        endpoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-      } else if (searchType === 'name') {
-        endpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
-      } else if (searchType === frstLetter) {
-        endpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      }
-    } else if (searchType === 'ingredient') {
-      endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+      endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/';
+      recipeType = 'drinks';
+    } else {
+      endpoint = 'https://www.themealdb.com/api/json/v1/1/';
+      recipeType = 'meals';
+    }
+
+    if (searchType === 'ingredient') {
+      endpoint += `filter.php?i=${searchInput}`;
     } else if (searchType === 'name') {
-      endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+      endpoint += `search.php?s=${searchInput}`;
     } else if (searchType === frstLetter) {
-      endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      endpoint += `search.php?f=${searchInput}`;
     }
 
     const response = await Fetch(endpoint);
 
-    if (response.meals && response.meals.length === 1) {
-      const recipeId = response.meals[0].idMeal;
-      history.push(`/meals/${recipeId}`);
-    } else if (response.drinks && response.drinks.length === 1) {
-      const recipeId = response.drinks[0].idDrink;
-      history.push(`/drinks/${recipeId}`);
+    if (response[recipeType] && response[recipeType].length === 1) {
+      const recipeId = response[recipeType][0].idDrink || response[recipeType][0].idMeal;
+      history.push(`/${recipeType}/${recipeId}`);
+    } else {
+      setRecipes(response[recipeType] || []);
     }
   };
 
+  const doze = '12';
   return (
     <div>
       <input
@@ -103,6 +105,24 @@ function SearchBar() {
       <button type="button" onClick={ handleSearch } data-testid="exec-search-btn">
         Search
       </button>
+      {recipes.length > 0 && (
+        <div>
+          {recipes.slice(0, doze).map((recipe, index) => (
+            <div key={ index } data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ recipe.strMealThumb || recipe.strDrinkThumb }
+                alt="Recipe"
+                data-testid={ `${index}-card-img` }
+              />
+              <p data-testid={ `${index}-card-name` }>
+                {recipe.strMeal
+               || recipe.strDrink}
+
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
