@@ -1,13 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Fetch from '../functions/Fetch';
 
 function SearchBar() {
+  const [searchType, setSearchType] = useState('ingredient');
+  const [searchInput, setSearchInput] = useState('');
+  const frstLetter = 'first-letter';
+
+  const handleSearchTypeChange = (event) => {
+    setSearchType(event.target.value);
+  };
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  const handleSearch = () => {
+    if (searchType === frstLetter && searchInput.length !== 1) {
+      global.alert('Your search must have only 1 (one) character');
+      return;
+    }
+
+    let endpoint = '';
+
+    if (searchType === 'ingredient') {
+      endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+    } else if (searchType === 'name') {
+      endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+    } else if (searchType === frstLetter) {
+      endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+    }
+
+    Fetch(endpoint);
+  };
+
   return (
     <div>
-      <h1>Teste</h1>
       <input
         type="text"
         placeholder="Search..."
         data-testid="search-input"
+        value={ searchInput }
+        onChange={ handleSearchInputChange }
       />
       <div>
         <label htmlFor="ingredient-search">
@@ -16,9 +49,11 @@ function SearchBar() {
             id="ingredient-search"
             name="search-type"
             value="ingredient"
+            checked={ searchType === 'ingredient' }
+            onChange={ handleSearchTypeChange }
             data-testid="ingredient-search-radio"
           />
-          Search by Ingredient
+          Buscar Por Ingrediente
         </label>
         <label htmlFor="name-search">
           <input
@@ -26,9 +61,11 @@ function SearchBar() {
             id="name-search"
             name="search-type"
             value="name"
+            checked={ searchType === 'name' }
+            onChange={ handleSearchTypeChange }
             data-testid="name-search-radio"
           />
-          Search by Name
+          Buscar por nome
         </label>
         <label htmlFor="first-letter-search">
           <input
@@ -36,12 +73,16 @@ function SearchBar() {
             id="first-letter-search"
             name="search-type"
             value="first-letter"
+            checked={ searchType === 'first-letter' }
+            onChange={ handleSearchTypeChange }
             data-testid="first-letter-search-radio"
           />
-          Search by First Letter
+          Buscar pela primeira letra
         </label>
       </div>
-      <button type="button" data-testid="exec-search-btn">Search</button>
+      <button type="button" onClick={ handleSearch } data-testid="exec-search-btn">
+        Search
+      </button>
     </div>
   );
 }
