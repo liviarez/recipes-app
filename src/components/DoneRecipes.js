@@ -1,14 +1,14 @@
 import React from 'react';
 import Header from './Header';
 
-function Meals() {
+function DoneRecipes() {
   return (
     <div>
       <Header />
-      <div>Meals</div>
+      <div>Done Recipes</div>
     </div>
 
   );
 }
 
-export default Meals;
+export default DoneRecipes;
