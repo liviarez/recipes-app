@@ -24,7 +24,7 @@ function RecipeDetails() {
     };
 
     fetchRecipe();
-  }, []);
+  }, [idReceita, type]);
 
   // console.log(recipe);
 
