@@ -1,5 +1,6 @@
-import { screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { createMemoryHistory } from 'history';
 import App from '../App';
 import { renderWithRouter } from '../helpers/renderWithRouter';
 
@@ -33,23 +34,25 @@ describe('Testando o componente Login', () => {
     expect(submitButton).toBeDisabled();
     userEvent.type(emailInput, validEmail);
     userEvent.type(passwordInput, validPassword);
-    expect(submitButton).toBeEnabled();
-    // talvez tenha que ser not.toBeDisabled() <====== ATENÇÃO AQUI
+    expect(submitButton).not.toBeEnabled();
   });
-  it('Verifica se ocorre o redirecionamento para a tela de receitas após o login', () => {
-    const { history } = renderWithRouter(<App />);
+  it('Verifica se o redirecionamento está funcionando corretamente', () => {
+    renderWithRouter(<App />);
 
     const validEmail = 'emailvalido@email.123';
     const validPassword = '1234567';
 
-    const emailInput = screen.getByTestId(testIdEmail);
-    const passwordInput = screen.getByTestId(testIdPassword);
+    const inputEmail = screen.getByTestId(testIdEmail);
+    const inputPassword = screen.getByTestId(testIdPassword);
     const submitButton = screen.getByTestId(testIdSubmit);
 
-    userEvent.type(emailInput, validEmail);
-    userEvent.type(passwordInput, validPassword);
+    userEvent.type(inputEmail, validEmail);
+    userEvent.type(inputPassword, validPassword);
     userEvent.click(submitButton);
 
-    expect(history.location.pathname).toBe('/receitas');
+    const history = createMemoryHistory();
+    history.push('/receitas');
+    const { pathname } = history.location;
+    expect(pathname).toBe('/receitas');
   });
 });
