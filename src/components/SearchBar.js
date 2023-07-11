@@ -17,6 +17,7 @@ function SearchBar() {
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
+
   const isDrinksPage = () => location.pathname === '/drinks';
 
   const handleSearch = async () => {
@@ -45,16 +46,20 @@ function SearchBar() {
     }
 
     const response = await Fetch(endpoint);
+    const doze = '12';
 
-    if (response[recipeType] && response[recipeType].length === 1) {
+    if (response[recipeType] && (response[recipeType].length === 1
+      || response[recipeType].length === doze)) {
       const recipeId = response[recipeType][0].idDrink || response[recipeType][0].idMeal;
       history.push(`/${recipeType}/${recipeId}`);
     } else {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
       setRecipes(response[recipeType] || []);
     }
   };
 
   const doze = '12';
+
   return (
     <div>
       <input
@@ -115,9 +120,7 @@ function SearchBar() {
                 data-testid={ `${index}-card-img` }
               />
               <p data-testid={ `${index}-card-name` }>
-                {recipe.strMeal
-               || recipe.strDrink}
-
+                {recipe.strMeal || recipe.strDrink}
               </p>
             </div>
           ))}
