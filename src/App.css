@@ -66,3 +66,25 @@
     transform: rotate(-10deg);
   }
 }
+
+.divRecommendation {
+  width: 400px; /* Largura do container */
+  overflow-x: auto; /* Habilitar a rolagem horizontal */
+  white-space: nowrap; /* Impedir que as divs quebrem linha */
+}
+
+.cardsRecommendation {
+  display: inline-block; /* Colocar as divs em linha */
+  width: 200px; /* Largura de cada div */
+  height: 200px; /* Altura de cada div */
+  background-color: #fffb00;
+  margin-right: 10px; /* Espaçamento entre as divs */
+}
+
+.cardImg {
+  width: 163.35px;
+  height: 134.85px;
+  top: 898px;
+  left: 12px;
+  border-radius: 5px 5px 0 0;
+}
