@@ -10,21 +10,21 @@ function App() {
     <main>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route 
+        <Route
           path="/meals/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
             <RecipeDetails
               { ...propsRouter }
-              type='meals'
+              type="meals"
             />
           ) }
         />
-        <Route 
+        <Route
           path="/drinks/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
             <RecipeDetails
               { ...propsRouter }
-              type='drinks'
+              type="drinks"
             />
           ) }
         />
