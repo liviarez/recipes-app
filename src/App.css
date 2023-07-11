@@ -68,25 +68,25 @@
 }
 
 .divRecommendation {
-  width: 400px;
   overflow-x: auto;
+  width: 400px;
   white-space: nowrap;
 }
 
 .cardsRecommendation {
-  display: inline-block;
-  width: 200px;
-  height: 200px;
   background-color: #fffb00;
+  display: inline-block;
+  height: 200px;
   margin-right: 10px;
+  width: 200px;
 }
 
 .cardImg {
-  width: 163.35px;
-  height: 134.85px;
-  top: 898px;
-  left: 12px;
   border-radius: 5px 5px 0 0;
+  height: 134.85px;
+  left: 12px;
+  top: 898px;
+  width: 163.35px;
 }
 
 .screen {
@@ -94,7 +94,7 @@
 }
 
 .fixed-button {
-  position: fixed;
   bottom: 0px;
+  position: fixed;
   right: 20px;
 }
