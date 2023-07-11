@@ -69,8 +69,8 @@
 
 .divRecommendation {
   overflow-x: auto;
-  width: 400px;
   white-space: nowrap;
+  width: 400px;
 }
 
 .cardsRecommendation {
@@ -94,7 +94,7 @@
 }
 
 .fixed-button {
-  bottom: 0px;
+  bottom: 0;
   position: fixed;
   right: 20px;
 }
