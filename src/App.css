@@ -68,17 +68,17 @@
 }
 
 .divRecommendation {
-  width: 400px; /* Largura do container */
-  overflow-x: auto; /* Habilitar a rolagem horizontal */
-  white-space: nowrap; /* Impedir que as divs quebrem linha */
+  width: 400px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .cardsRecommendation {
-  display: inline-block; /* Colocar as divs em linha */
-  width: 200px; /* Largura de cada div */
-  height: 200px; /* Altura de cada div */
+  display: inline-block;
+  width: 200px;
+  height: 200px;
   background-color: #fffb00;
-  margin-right: 10px; /* Espaçamento entre as divs */
+  margin-right: 10px;
 }
 
 .cardImg {
@@ -87,4 +87,14 @@
   top: 898px;
   left: 12px;
   border-radius: 5px 5px 0 0;
+}
+
+.screen {
+  max-width: 360px;
+}
+
+.fixed-button {
+  position: fixed;
+  bottom: 0px;
+  right: 20px;
 }

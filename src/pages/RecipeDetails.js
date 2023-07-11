@@ -54,7 +54,7 @@ function RecipeDetails() {
   // console.log(recommendation);
 
   return (
-    <div>
+    <div className="screen">
       {recipe.length === 0 && <h1>Carregando...</h1>}
       {recipe.length > 0 && type === 'meals'
         && (
@@ -112,6 +112,12 @@ function RecipeDetails() {
                 ))
               }
             </div>
+            <button
+              className="fixed-button"
+              data-testid="start-recipe-btn"
+            >
+              Start Recipe
+            </button>
           </div>
         )}
       {recipe.length > 0 && type === 'drinks'
@@ -160,6 +166,12 @@ function RecipeDetails() {
                 ))
               }
             </div>
+            <button
+              className="fixed-button"
+              data-testid="start-recipe-btn"
+            >
+              Start Recipe
+            </button>
           </div>
         )}
     </div>
