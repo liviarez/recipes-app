@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
 
 function SearchBar() {
+  const location = useLocation();
   const [searchType, setSearchType] = useState('ingredient');
   const [searchInput, setSearchInput] = useState('');
   const frstLetter = 'first-letter';
@@ -13,6 +15,7 @@ function SearchBar() {
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
+  const isDrinksPage = () => location.pathname === '/drinks';
 
   const handleSearch = () => {
     if (searchType === frstLetter && searchInput.length !== 1) {
@@ -22,7 +25,15 @@ function SearchBar() {
 
     let endpoint = '';
 
-    if (searchType === 'ingredient') {
+    if (isDrinksPage()) {
+      if (searchType === 'ingredient') {
+        endpoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+      } else if (searchType === 'name') {
+        endpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+      } else if (searchType === frstLetter) {
+        endpoint = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      }
+    } else if (searchType === 'ingredient') {
       endpoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
     } else if (searchType === 'name') {
       endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
