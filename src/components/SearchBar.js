@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
 
 function SearchBar() {
   const location = useLocation();
+  const history = useHistory();
   const [searchType, setSearchType] = useState('ingredient');
   const [searchInput, setSearchInput] = useState('');
   const frstLetter = 'first-letter';
@@ -17,7 +18,7 @@ function SearchBar() {
   };
   const isDrinksPage = () => location.pathname === '/drinks';
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (searchType === frstLetter && searchInput.length !== 1) {
       global.alert('Your search must have only 1 (one) character');
       return;
@@ -41,7 +42,15 @@ function SearchBar() {
       endpoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
     }
 
-    Fetch(endpoint);
+    const response = await Fetch(endpoint);
+
+    if (response.meals && response.meals.length === 1) {
+      const recipeId = response.meals[0].idMeal;
+      history.push(`/meals/${recipeId}`);
+    } else if (response.drinks && response.drinks.length === 1) {
+      const recipeId = response.drinks[0].idDrink;
+      history.push(`/drinks/${recipeId}`);
+    }
   };
 
   return (
