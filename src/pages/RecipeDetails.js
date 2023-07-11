@@ -10,12 +10,13 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasure] = useState([]);
+  const [recommendation, setRecommendation] = useState([]);
 
   useEffect(() => {
     const fetchRecipe = async () => {
       if (type === 'meals') {
         const data = await Fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idReceita}`);
-        console.log(data);
+        const recommend = await Fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
         const ingredient = Object.keys(data.meals[0])
           .filter((key) => key.startsWith('strIngredient') && data.meals[0][key])
           .map((key) => data.meals[0][key]);
@@ -24,11 +25,12 @@ function RecipeDetails() {
           .map((key) => data.meals[0][key]);
         setIngredients(ingredient);
         setMeasure(measure);
+        setRecommendation(recommend.drinks);
         setRecipe(data.meals);
       }
       if (type === 'drinks') {
         const data = await Fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idReceita}`);
-        console.log(data);
+        const recommend = await Fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         const ingredient = Object.keys(data.drinks[0])
           .filter((key) => key.startsWith('strIngredient') && data.drinks[0][key])
           .map((key) => data.drinks[0][key]);
@@ -37,6 +39,7 @@ function RecipeDetails() {
           .map((key) => data.drinks[0][key]);
         setIngredients(ingredient);
         setMeasure(measure);
+        setRecommendation(recommend.meals);
         setRecipe(data.drinks);
       }
     };
@@ -44,7 +47,7 @@ function RecipeDetails() {
     fetchRecipe();
   }, [idReceita, type]);
 
-  // console.log(recipe);
+  // console.log(recommendation);
 
   return (
     <div>
