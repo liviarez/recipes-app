@@ -11,6 +11,7 @@ function App() {
     <main>
       <Switch>
         <Route exact path="/" component={ Login } />
+        <Route path="/meals" component={ Meals } />
         <Route
           path="/meals/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
