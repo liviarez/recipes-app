@@ -5,17 +5,22 @@ import Context from './Context';
 function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const context = useMemo(() => ({
     email,
     setEmail,
     password,
     setPassword,
+    isFormValid,
+    setIsFormValid,
   }), [
     email,
     setEmail,
     password,
     setPassword,
+    isFormValid,
+    setIsFormValid,
   ]);
 
   return (
