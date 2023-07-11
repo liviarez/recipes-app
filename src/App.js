@@ -11,8 +11,9 @@ function App() {
     <main>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/meals" component={ Meals } />
+        <Route exact path="/meals" component={ Meals } />
         <Route
+          exact
           path="/meals/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
             <RecipeDetails
@@ -22,6 +23,7 @@ function App() {
           ) }
         />
         <Route
+          exact
           path="/drinks/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
             <RecipeDetails
@@ -30,7 +32,7 @@ function App() {
             />
           ) }
         />
-        <Route path="/receitas" component={ Meals } />
+        <Route exact path="/receitas" component={ Meals } />
         <Route path="*" component={ Notfound } />
       </Switch>
     </main>
