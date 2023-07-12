@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouteMatch } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
 
@@ -12,18 +12,49 @@ function RecipeDetails() {
   const [measures, setMeasure] = useState([]);
   const [recommendation, setRecommendation] = useState([]);
   const [validationBtn, setValidationBtn] = useState(true);
+  const [textBtn, setTextBtn] = useState('Start Recipe');
+
+  const recipeStarted = useCallback(async () => {
+    // localStorage.clear();
+    // localStorage.setItem('doneRecipes', JSON.stringify([{
+    //   id: 52882,
+    // }, {
+    //   id: 17256,
+    // }]));
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')); // pega no local storage
+    // console.log(doneRecipes[0].id === Number(idReceita));
+    // const doneRecipes = [{
+    //   id: 5288,
+    // }, {
+    //   id: 1725,
+    // }];
+
+    // localStorage.setItem('inProgressRecipes', JSON.stringify({
+    //   drinks: {
+    //     id: 17256,
+    //   },
+    //   meals: {
+    //     id: 52882,
+    //   },
+    // }));
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')); // pega no local storage
+    // const inProgressRecipes = {
+    //   drinks: {
+    //     id: 1725,
+    //   },
+    //   meals: {
+    //     id: 5288,
+    //   },
+    // };
+    const validation = doneRecipes.some((e) => e.id === Number(idReceita));
+    setValidationBtn(!validation);
+    if (inProgressRecipes[type].id === Number(idReceita)) {
+      console.log(inProgressRecipes[type].id);
+      setTextBtn('Continue Recipe');
+    }
+  }, [idReceita, type]);
 
   useEffect(() => {
-    const recipeStarded = async () => {
-      // const doneRecipes = localStorage.getItem('doneRecipes'); // pega no local storage
-      const doneRecipes = [{
-        id: 52882,
-      }, {
-        id: 17256,
-      }];
-      const validation = doneRecipes.some((e) => e.id === idReceita);
-      setValidationBtn(!validation);
-    };
     const fetchRecipe = async () => {
       if (type === 'meals') {
         const six = 6;
@@ -40,7 +71,6 @@ function RecipeDetails() {
         setMeasure(measure);
         setRecommendation(randomRecipes);
         setRecipe(data.meals);
-        recipeStarded();
       }
       if (type === 'drinks') {
         const six = 6;
@@ -59,9 +89,9 @@ function RecipeDetails() {
         setRecipe(data.drinks);
       }
     };
-
+    recipeStarted();
     fetchRecipe();
-  }, [idReceita, type]);
+  }, [idReceita, recipeStarted, type]);
 
   // console.log(recommendation);
 
@@ -131,7 +161,7 @@ function RecipeDetails() {
                     className="fixed-button"
                     data-testid="start-recipe-btn"
                   >
-                    Start Recipe
+                    {textBtn}
                   </button>
                 )
             }
@@ -190,7 +220,7 @@ function RecipeDetails() {
                     className="fixed-button"
                     data-testid="start-recipe-btn"
                   >
-                    Start Recipe
+                    {textBtn}
                   </button>
                 )
             }
