@@ -74,11 +74,16 @@
 }
 
 .cardsRecommendation {
-  background-color: #fffb00;
   display: inline-block;
   height: 200px;
   margin-right: 10px;
   width: 200px;
+  /* width: 163.2px; */
+  /* height: 166.12px; */
+  /* top: 898.1px; */
+  /* left: 12.12px; */
+  border-radius: 5px;
+  border: 1px solid;
 }
 
 .cardImg {
@@ -91,7 +96,7 @@
 
 .screen {
   max-width: 360px;
-  margin-bottom: 55px;
+  margin-bottom: 45px;
 }
 
 .fixed-button {

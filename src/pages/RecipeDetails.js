@@ -14,6 +14,16 @@ function RecipeDetails() {
   const [validationBtn, setValidationBtn] = useState(true);
 
   useEffect(() => {
+    const recipeStarded = async () => {
+      // const doneRecipes = localStorage.getItem('doneRecipes'); // pega no local storage
+      const doneRecipes = [{
+        id: 52882,
+      }, {
+        id: 17256,
+      }];
+      const validation = doneRecipes.some((e) => e.id === idReceita);
+      setValidationBtn(!validation);
+    };
     const fetchRecipe = async () => {
       if (type === 'meals') {
         const six = 6;
@@ -30,6 +40,7 @@ function RecipeDetails() {
         setMeasure(measure);
         setRecommendation(randomRecipes);
         setRecipe(data.meals);
+        recipeStarded();
       }
       if (type === 'drinks') {
         const six = 6;
