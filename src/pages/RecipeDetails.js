@@ -16,7 +16,6 @@ function RecipeDetails() {
   const [validationBtn, setValidationBtn] = useState(true);
   const [validationCopy, setValidationCopy] = useState(false);
 
-
   const recipeStarted = useCallback(async () => {
     // localStorage.clear();
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || []; // pega no local storage
@@ -74,6 +73,35 @@ function RecipeDetails() {
     setValidationCopy(true);
   };
 
+  const onClickFavorite = () => {
+    const favList = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    if (!favList.some((e) => e?.id === Number(idReceita))) {
+      if (type === 'meals') {
+        favList.push({
+          id: recipe[0].idMeal,
+          type: 'meal',
+          nationality: recipe[0].strArea,
+          category: recipe[0].strCategory,
+          alcoholicOrNot: '',
+          name: recipe[0].strMeal,
+          image: recipe[0].strMealThumb,
+        });
+      }
+      if (type === 'drinks') {
+        favList.push({
+          id: recipe[0].idDrink,
+          type: 'drink',
+          nationality: '',
+          category: recipe[0].strCategory,
+          alcoholicOrNot: recipe[0].strAlcoholic,
+          name: recipe[0].strDrink,
+          image: recipe[0].strDrinkThumb,
+        });
+      }
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favList));
+    }
+  };
+
   return (
     <div className="screen">
       {recipe.length === 0 && <h1>Carregando...</h1>}
@@ -89,7 +117,10 @@ function RecipeDetails() {
             {
               validationCopy && <p>Link copied!</p>
             }
-            <button data-testid="favorite-btn">
+            <button
+              data-testid="favorite-btn"
+              onClick={ () => onClickFavorite() }
+            >
               <img src={ favoriteIcon } alt="Favorite Icon" />
             </button>
             <div>
@@ -175,7 +206,12 @@ function RecipeDetails() {
             {
               validationCopy && <p>Link copied!</p>
             }
-            <button data-testid="favorite-btn">Favorito</button>
+            <button
+              data-testid="favorite-btn"
+              onClick={ () => onClickFavorite() }
+            >
+              <img src={ favoriteIcon } alt="Favorite Icon" />
+            </button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strDrink }</p>
               <p data-testid="recipe-category">{ recipe[0].strAlcoholic }</p>
