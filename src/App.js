@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
-import Notfound from './components/Notfound';
+import Notfound from './pages/Notfound';
 import Meals from './components/Meals';
-import Profile from './pages/profile';
+import Profile from './components/Profile';
 import Drinks from './components/Drinks';
 import './App.css';
 import RecipeDetails from './pages/RecipeDetails';
@@ -15,11 +15,11 @@ function App() {
     <main>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/meals" component={ Meals } />
-        <Route path="/drinks" component={ Drinks } />
-        <Route path="/profile" component={ Profile } />
-        <Route path="/done-recipes" component={ DoneRecipes } />
-        <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route exact path="/meals" component={ Meals } />
+        <Route exact path="/drinks" component={ Drinks } />
+        <Route exact path="/profile" component={ Profile } />
+        <Route exact path="/done-recipes" component={ DoneRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route
           path="/meals/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
@@ -38,7 +38,7 @@ function App() {
             />
           ) }
         />
-        <Route path="/receitas" component={ Meals } />
+        <Route exact path="/receitas" component={ Meals } />
         <Route path="*" component={ Notfound } />
       </Switch>
     </main>
