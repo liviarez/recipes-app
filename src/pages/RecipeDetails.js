@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
+import shareIcon from '../images/shareIcon.svg';
+import favoriteIcon from '../images/whiteHeartIcon.svg';
 
 function RecipeDetails() {
   const { idReceita } = useParams();
@@ -12,40 +14,12 @@ function RecipeDetails() {
   const [measures, setMeasure] = useState([]);
   const [recommendation, setRecommendation] = useState([]);
   const [validationBtn, setValidationBtn] = useState(true);
-  const [textBtn, setTextBtn] = useState('Start Recipe');
+  const [validationCopy, setValidationCopy] = useState(false);
+
 
   const recipeStarted = useCallback(async () => {
     // localStorage.clear();
-    // localStorage.setItem('doneRecipes', JSON.stringify([{
-    //   id: 52882,
-    // }, {
-    //   id: 17256,
-    // }]));
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || []; // pega no local storage
-    // console.log(doneRecipes[0].id === Number(idReceita));
-    // const doneRecipes = [{
-    //   id: 5288,
-    // }, {
-    //   id: 1725,
-    // }];
-
-    // localStorage.setItem('inProgressRecipes', JSON.stringify({
-    //   drinks: {
-    //     id: 17256,
-    //   },
-    //   meals: {
-    //     id: 52882,
-    //   },
-    // }));
-    // const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')) || []; // pega no local storage
-    // const inProgressRecipes = {
-    //   drinks: {
-    //     id: 1725,
-    //   },
-    //   meals: {
-    //     id: 5288,
-    //   },
-    // };
     const validation = doneRecipes.some((e) => e?.id === Number(idReceita));
     setValidationBtn(!validation);
   }, [idReceita]);
@@ -95,14 +69,29 @@ function RecipeDetails() {
     history.push(`/${type}/${idReceita}/in-progress`);
   };
 
+  const onClickShare = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/${type}/${idReceita}`);
+    setValidationCopy(true);
+  };
+
   return (
     <div className="screen">
       {recipe.length === 0 && <h1>Carregando...</h1>}
       {recipe.length > 0 && type === 'meals'
         && (
           <div>
-            <button data-testid="share-btn">compartilhar</button>
-            <button data-testid="favorite-btn">Favorito</button>
+            <button
+              data-testid="share-btn"
+              onClick={ () => onClickShare() }
+            >
+              <img src={ shareIcon } alt="Share Icon" />
+            </button>
+            {
+              validationCopy && <p>Link copied!</p>
+            }
+            <button data-testid="favorite-btn">
+              <img src={ favoriteIcon } alt="Favorite Icon" />
+            </button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strMeal }</p>
               <p data-testid="recipe-category">{ recipe[0].strCategory }</p>
@@ -165,8 +154,8 @@ function RecipeDetails() {
                     onClick={ () => onClickStart() }
                   >
                     {
-                      JSON.parse(localStorage.getItem('inProgressRecipes')) || [] ?
-                        'Continue Recipe'
+                      JSON.parse(localStorage.getItem('inProgressRecipes')) || []
+                        ? 'Continue Recipe'
                         : 'Start Recipe'
                     }
                   </button>
@@ -177,7 +166,15 @@ function RecipeDetails() {
       {recipe.length > 0 && type === 'drinks'
         && (
           <div>
-            <button data-testid="share-btn">compartilhar</button>
+            <button
+              data-testid="share-btn"
+              onClick={ () => onClickShare() }
+            >
+              <img src={ shareIcon } alt="Share Icon" />
+            </button>
+            {
+              validationCopy && <p>Link copied!</p>
+            }
             <button data-testid="favorite-btn">Favorito</button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strDrink }</p>
@@ -231,8 +228,8 @@ function RecipeDetails() {
                     onClick={ () => onClickStart() }
                   >
                     {
-                      JSON.parse(localStorage.getItem('inProgressRecipes')) || [] ?
-                        'Continue Recipe'
+                      JSON.parse(localStorage.getItem('inProgressRecipes')) || []
+                        ? 'Continue Recipe'
                         : 'Start Recipe'
                     }
                   </button>
