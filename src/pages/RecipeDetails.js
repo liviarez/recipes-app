@@ -14,45 +14,45 @@ function RecipeDetails() {
   const [validationBtn, setValidationBtn] = useState(true);
   const [textBtn, setTextBtn] = useState('Start Recipe');
 
-  const recipeStarted = useCallback(async () => {
-    // localStorage.clear();
-    // localStorage.setItem('doneRecipes', JSON.stringify([{
-    //   id: 52882,
-    // }, {
-    //   id: 17256,
-    // }]));
-    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')); // pega no local storage
-    // console.log(doneRecipes[0].id === Number(idReceita));
-    // const doneRecipes = [{
-    //   id: 5288,
-    // }, {
-    //   id: 1725,
-    // }];
+  // const recipeStarted = useCallback(async () => {
+  //   // localStorage.clear();
+  //   // localStorage.setItem('doneRecipes', JSON.stringify([{
+  //   //   id: 52882,
+  //   // }, {
+  //   //   id: 17256,
+  //   // }]));
+  //   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')); // pega no local storage
+  //   // console.log(doneRecipes[0].id === Number(idReceita));
+  //   // const doneRecipes = [{
+  //   //   id: 5288,
+  //   // }, {
+  //   //   id: 1725,
+  //   // }];
 
-    // localStorage.setItem('inProgressRecipes', JSON.stringify({
-    //   drinks: {
-    //     id: 17256,
-    //   },
-    //   meals: {
-    //     id: 52882,
-    //   },
-    // }));
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')); // pega no local storage
-    // const inProgressRecipes = {
-    //   drinks: {
-    //     id: 1725,
-    //   },
-    //   meals: {
-    //     id: 5288,
-    //   },
-    // };
-    const validation = doneRecipes.some((e) => e.id === Number(idReceita));
-    setValidationBtn(!validation);
-    if (inProgressRecipes[type].id === Number(idReceita)) {
-      console.log(inProgressRecipes[type].id);
-      setTextBtn('Continue Recipe');
-    }
-  }, [idReceita, type]);
+  //   // localStorage.setItem('inProgressRecipes', JSON.stringify({
+  //   //   drinks: {
+  //   //     id: 17256,
+  //   //   },
+  //   //   meals: {
+  //   //     id: 52882,
+  //   //   },
+  //   // }));
+  //   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')); // pega no local storage
+  //   // const inProgressRecipes = {
+  //   //   drinks: {
+  //   //     id: 1725,
+  //   //   },
+  //   //   meals: {
+  //   //     id: 5288,
+  //   //   },
+  //   // };
+  //   const validation = doneRecipes.some((e) => e.id === Number(idReceita));
+  //   setValidationBtn(!validation);
+  //   if (inProgressRecipes[type].id === Number(idReceita)) {
+  //     console.log(inProgressRecipes[type].id);
+  //     setTextBtn('Continue Recipe');
+  //   }
+  // }, [idReceita, type]);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -89,15 +89,15 @@ function RecipeDetails() {
         setRecipe(data.drinks);
       }
     };
-    recipeStarted();
+    // recipeStarted();
     fetchRecipe();
-  }, [idReceita, recipeStarted, type]);
+  }, [idReceita, type]);
 
   // console.log(recommendation);
 
+  const history = useHistory();
   const onClickStart = () => {
-    const history = useHistory();
-    history.push();
+    history.push(`/${type}/${idReceita}/in-progress`);
   };
 
   return (
@@ -165,6 +165,7 @@ function RecipeDetails() {
                   <button
                     className="fixed-button"
                     data-testid="start-recipe-btn"
+                    onClick={ () => onClickStart() }
                   >
                     {textBtn}
                   </button>
@@ -224,6 +225,7 @@ function RecipeDetails() {
                   <button
                     className="fixed-button"
                     data-testid="start-recipe-btn"
+                    onClick={ () => onClickStart() }
                   >
                     {textBtn}
                   </button>
