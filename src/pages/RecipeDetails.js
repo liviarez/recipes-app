@@ -106,6 +106,8 @@ function RecipeDetails() {
       {recipe.length > 0 && type === 'meals'
         && (
           <div>
+            <button data-testid="share-btn">compartilhar</button>
+            <button data-testid="favorite-btn">Favorito</button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strMeal }</p>
               <p data-testid="recipe-category">{ recipe[0].strCategory }</p>
@@ -176,6 +178,8 @@ function RecipeDetails() {
       {recipe.length > 0 && type === 'drinks'
         && (
           <div>
+            <button data-testid="share-btn">compartilhar</button>
+            <button data-testid="favorite-btn">Favorito</button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strDrink }</p>
               <p data-testid="recipe-category">{ recipe[0].strAlcoholic }</p>
