@@ -11,6 +11,7 @@ function RecipeDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasure] = useState([]);
   const [recommendation, setRecommendation] = useState([]);
+  const [validationBtn, setValidationBtn] = useState(true);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -112,12 +113,17 @@ function RecipeDetails() {
                 ))
               }
             </div>
-            <button
-              className="fixed-button"
-              data-testid="start-recipe-btn"
-            >
-              Start Recipe
-            </button>
+            {
+              validationBtn
+                && (
+                  <button
+                    className="fixed-button"
+                    data-testid="start-recipe-btn"
+                  >
+                    Start Recipe
+                  </button>
+                )
+            }
           </div>
         )}
       {recipe.length > 0 && type === 'drinks'
@@ -166,12 +172,17 @@ function RecipeDetails() {
                 ))
               }
             </div>
-            <button
-              className="fixed-button"
-              data-testid="start-recipe-btn"
-            >
-              Start Recipe
-            </button>
+            {
+              validationBtn
+                && (
+                  <button
+                    className="fixed-button"
+                    data-testid="start-recipe-btn"
+                  >
+                    Start Recipe
+                  </button>
+                )
+            }
           </div>
         )}
     </div>
