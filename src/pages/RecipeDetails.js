@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useRouteMatch } from 'react-router-dom';
+import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
 
 function RecipeDetails() {
@@ -94,6 +94,11 @@ function RecipeDetails() {
   }, [idReceita, recipeStarted, type]);
 
   // console.log(recommendation);
+
+  const onClickStart = () => {
+    const history = useHistory();
+    history.push();
+  };
 
   return (
     <div className="screen">
