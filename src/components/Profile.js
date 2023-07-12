@@ -1,11 +1,13 @@
 import React from 'react';
-import Header from '../components/Header';
+import Header from './Header';
+import Footer from './Footer';
 
 function Profile() {
   return (
     <div>
       <Header />
       <div>Profile</div>
+      <Footer />
     </div>
 
   );
