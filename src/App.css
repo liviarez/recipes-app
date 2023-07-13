@@ -91,15 +91,15 @@
 }
 
 .screen {
-  max-width: 360px;
   margin-bottom: 45px;
+  max-width: 360px;
 }
 
 .fixed-button {
-  bottom: 0px;
-  Height: 40px;
-  Left:12px;
+  bottom: 0;
+  height: 40px;
+  left: 12px;
   position: fixed;
   right: 20px;
-  Width:336px;
+  width: 336px;
 }
