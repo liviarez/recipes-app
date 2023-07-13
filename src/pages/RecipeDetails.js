@@ -1,13 +1,12 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable max-lines */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
 import shareIcon from '../images/shareIcon.svg';
 import noFavoriteIcon from '../images/whiteHeartIcon.svg';
 import favoriteIcon from '../images/blackHeartIcon.svg';
+import RecipeMeals from '../components/RecipeMeals';
+import RecipeDrinks from '../components/RecipeDrinks';
 
-// eslint-disable-next-line complexity
 function RecipeDetails() {
   const { idReceita } = useParams();
   const { path } = useRouteMatch();
@@ -121,193 +120,38 @@ function RecipeDetails() {
 
   return (
     <div className="screen">
-      {recipe.length === 0 && <h1>Carregando...</h1>}
-      {recipe.length > 0 && type === 'meals'
-        && (
-          <div>
-            <button
-              data-testid="share-btn"
-              onClick={ () => onClickShare() }
-            >
-              <img src={ shareIcon } alt="Share Icon" />
-            </button>
-            {
-              validationCopy && <p>Link copied!</p>
-            }
-            <button
-              data-testid="favorite-btn"
-              onClick={ () => onClickFavorite() }
-              src={
-                favOrNo
-                  ? noFavoriteIcon
-                  : favoriteIcon
-              }
-            >
-              {
-                favOrNo
-                  ? <img src={ noFavoriteIcon } alt="No Favorite Icon" />
-                  : <img src={ favoriteIcon } alt="Favorite Icon" />
-              }
-            </button>
-            <div>
-              <p data-testid="recipe-title">{ recipe[0].strMeal }</p>
-              <p data-testid="recipe-category">{ recipe[0].strCategory }</p>
-              <div>
-                {
-                  ingredients.map((e, index) => (
-                    <p
-                      key={ e }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      { e }
-                      {': '}
-                      { measures[index] }
-                    </p>
-                  ))
-                }
-              </div>
-              <p data-testid="instructions">{ recipe[0].strInstructions }</p>
-              <img
-                alt="foto drink"
-                src={ recipe[0].strMealThumb }
-                data-testid="recipe-photo"
-              />
-              <iframe
-                width="560"
-                height="315"
-                src={ recipe[0].strYoutube }
-                title="YouTube video player"
-                allow="accelerometer; autoplay;
-                  clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                data-testid="video"
-              />
-            </div>
-            <div className="divRecommendation">
-              {
-                recommendation.map((e, index) => (
-                  <div
-                    data-testid={ `${index}-recommendation-card` }
-                    key={ e.idDrink }
-                    className="cardsRecommendation"
-                  >
-                    <img
-                      alt="foto drink"
-                      src={ e.strDrinkThumb }
-                      data-testid="recipe-photo"
-                      className="cardImg"
-                    />
-                    <p data-testid={ `${index}-recommendation-title` }>{ e.strDrink }</p>
-                  </div>
-                ))
-              }
-            </div>
-            {
-              validationBtn
-                && (
-                  <button
-                    className="fixed-button"
-                    data-testid="start-recipe-btn"
-                    onClick={ () => onClickStart() }
-                  >
-                    {
-                      JSON.parse(localStorage.getItem('inProgressRecipes')) || []
-                        ? 'Continue Recipe'
-                        : 'Start Recipe'
-                    }
-                  </button>
-                )
-            }
-          </div>
-        )}
-      {recipe.length > 0 && type === 'drinks'
-        && (
-          <div>
-            <button
-              data-testid="share-btn"
-              onClick={ () => onClickShare() }
-            >
-              <img src={ shareIcon } alt="Share Icon" />
-            </button>
-            {
-              validationCopy && <p>Link copied!</p>
-            }
-            <button
-              data-testid="favorite-btn"
-              onClick={ () => onClickFavorite() }
-              src={
-                favOrNo
-                  ? noFavoriteIcon
-                  : favoriteIcon
-              }
-            >
-              {
-                favOrNo
-                  ? <img src={ noFavoriteIcon } alt="No Favorite Icon" />
-                  : <img src={ favoriteIcon } alt="Favorite Icon" />
-              }
-            </button>
-            <div>
-              <p data-testid="recipe-title">{ recipe[0].strDrink }</p>
-              <p data-testid="recipe-category">{ recipe[0].strAlcoholic }</p>
-              <div>
-                {
-                  ingredients.map((e, index) => (
-                    <p
-                      key={ e }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      { e }
-                      {': '}
-                      { measures[index] }
-                    </p>
-                  ))
-                }
-              </div>
-              <p data-testid="instructions">{ recipe[0].strInstructions }</p>
-              <img
-                alt="foto drink"
-                src={ recipe[0].strDrinkThumb }
-                data-testid="recipe-photo"
-              />
-            </div>
-            <div className="divRecommendation">
-              {
-                recommendation.map((e, index) => (
-                  <div
-                    data-testid={ `${index}-recommendation-card` }
-                    key={ e.idMeal }
-                    className="cardsRecommendation"
-                  >
-                    <img
-                      alt="foto Meal"
-                      src={ e.strMealThumb }
-                      data-testid="recipe-photo"
-                      className="cardImg"
-                    />
-                    <p data-testid={ `${index}-recommendation-title` }>{ e.strMeal }</p>
-                  </div>
-                ))
-              }
-            </div>
-            {
-              validationBtn
-                && (
-                  <button
-                    className="fixed-button"
-                    data-testid="start-recipe-btn"
-                    onClick={ () => onClickStart() }
-                  >
-                    {
-                      JSON.parse(localStorage.getItem('inProgressRecipes')) || []
-                        ? 'Continue Recipe'
-                        : 'Start Recipe'
-                    }
-                  </button>
-                )
-            }
-          </div>
-        )}
+      <RecipeMeals
+        recipe={ recipe }
+        type={ type }
+        onClickShare={ onClickShare }
+        shareIcon={ shareIcon }
+        validationCopy={ validationCopy }
+        onClickFavorite={ onClickFavorite }
+        favOrNo={ favOrNo }
+        noFavoriteIcon={ noFavoriteIcon }
+        favoriteIcon={ favoriteIcon }
+        ingredients={ ingredients }
+        measures={ measures }
+        recommendation={ recommendation }
+        validationBtn={ validationBtn }
+        onClickStart={ onClickStart }
+      />
+      <RecipeDrinks
+        recipe={ recipe }
+        type={ type }
+        onClickShare={ onClickShare }
+        shareIcon={ shareIcon }
+        validationCopy={ validationCopy }
+        onClickFavorite={ onClickFavorite }
+        favOrNo={ favOrNo }
+        noFavoriteIcon={ noFavoriteIcon }
+        favoriteIcon={ favoriteIcon }
+        ingredients={ ingredients }
+        measures={ measures }
+        recommendation={ recommendation }
+        validationBtn={ validationBtn }
+        onClickStart={ onClickStart }
+      />
     </div>
 
   );
