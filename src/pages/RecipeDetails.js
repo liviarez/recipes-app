@@ -1,9 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable max-lines */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouteMatch, useHistory } from 'react-router-dom';
 import Fetch from '../functions/Fetch';
 import shareIcon from '../images/shareIcon.svg';
-import favoriteIcon from '../images/whiteHeartIcon.svg';
+import noFavoriteIcon from '../images/whiteHeartIcon.svg';
+import favoriteIcon from '../images/blackHeartIcon.svg';
 
+// eslint-disable-next-line complexity
 function RecipeDetails() {
   const { idReceita } = useParams();
   const { path } = useRouteMatch();
@@ -15,11 +19,11 @@ function RecipeDetails() {
   const [recommendation, setRecommendation] = useState([]);
   const [validationBtn, setValidationBtn] = useState(true);
   const [validationCopy, setValidationCopy] = useState(false);
+  const [favOrNo, setFavOrNo] = useState(true);
 
   const recipeStarted = useCallback(async () => {
-    // localStorage.clear();
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || []; // pega no local storage
-    const validation = doneRecipes.some((e) => e?.id === Number(idReceita));
+    const validation = doneRecipes.some((e) => e?.id === idReceita);
     setValidationBtn(!validation);
   }, [idReceita]);
 
@@ -57,6 +61,11 @@ function RecipeDetails() {
         setRecommendation(randomRecipes);
         setRecipe(data.drinks);
       }
+      const favList = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+      console.log(favList);
+      if (favList.some((e) => e?.id === idReceita)) {
+        setFavOrNo(false);
+      }
     };
     fetchRecipe();
   }, [idReceita, recipeStarted, type]);
@@ -73,9 +82,12 @@ function RecipeDetails() {
     setValidationCopy(true);
   };
 
+  // localStorage.clear();
   const onClickFavorite = () => {
     const favList = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
-    if (!favList.some((e) => e?.id === Number(idReceita))) {
+    console.log(favList[0]?.id);
+    console.log(idReceita);
+    if (favList.filter((e) => e?.id === idReceita).length === 0) {
       if (type === 'meals') {
         favList.push({
           id: recipe[0].idMeal,
@@ -99,6 +111,11 @@ function RecipeDetails() {
         });
       }
       localStorage.setItem('favoriteRecipes', JSON.stringify(favList));
+      setFavOrNo(false);
+    } else {
+      const newFav = favList.filter((e) => e.id !== idReceita);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFav));
+      setFavOrNo(true);
     }
   };
 
@@ -120,8 +137,17 @@ function RecipeDetails() {
             <button
               data-testid="favorite-btn"
               onClick={ () => onClickFavorite() }
+              src={
+                favOrNo
+                  ? noFavoriteIcon
+                  : favoriteIcon
+              }
             >
-              <img src={ favoriteIcon } alt="Favorite Icon" />
+              {
+                favOrNo
+                  ? <img src={ noFavoriteIcon } alt="No Favorite Icon" />
+                  : <img src={ favoriteIcon } alt="Favorite Icon" />
+              }
             </button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strMeal }</p>
@@ -209,8 +235,17 @@ function RecipeDetails() {
             <button
               data-testid="favorite-btn"
               onClick={ () => onClickFavorite() }
+              src={
+                favOrNo
+                  ? noFavoriteIcon
+                  : favoriteIcon
+              }
             >
-              <img src={ favoriteIcon } alt="Favorite Icon" />
+              {
+                favOrNo
+                  ? <img src={ noFavoriteIcon } alt="No Favorite Icon" />
+                  : <img src={ favoriteIcon } alt="Favorite Icon" />
+              }
             </button>
             <div>
               <p data-testid="recipe-title">{ recipe[0].strDrink }</p>
