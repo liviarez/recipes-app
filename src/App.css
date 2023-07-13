@@ -74,16 +74,12 @@
 }
 
 .cardsRecommendation {
+  border: 1px solid;
+  border-radius: 5px;
   display: inline-block;
   height: 200px;
   margin-right: 10px;
   width: 200px;
-  /* width: 163.2px; */
-  /* height: 166.12px; */
-  /* top: 898.1px; */
-  /* left: 12.12px; */
-  border-radius: 5px;
-  border: 1px solid;
 }
 
 .cardImg {
@@ -101,9 +97,9 @@
 
 .fixed-button {
   bottom: 0px;
+  Height: 40px;
+  Left:12px;
   position: fixed;
   right: 20px;
   Width:336px;
-  Height: 40px;
-  Left:12px;
 }
