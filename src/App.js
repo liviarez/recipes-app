@@ -21,6 +21,7 @@ function App() {
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route
+          exact
           path="/meals/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
             <RecipeDetails
@@ -30,6 +31,7 @@ function App() {
           ) }
         />
         <Route
+          exact
           path="/drinks/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
           render={ (propsRouter) => (
             <RecipeDetails

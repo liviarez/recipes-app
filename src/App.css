@@ -66,3 +66,40 @@
     transform: rotate(-10deg);
   }
 }
+
+.divRecommendation {
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 400px;
+}
+
+.cardsRecommendation {
+  border: 1px solid;
+  border-radius: 5px;
+  display: inline-block;
+  height: 200px;
+  margin-right: 10px;
+  width: 200px;
+}
+
+.cardImg {
+  border-radius: 5px 5px 0 0;
+  height: 134.85px;
+  left: 12px;
+  top: 898px;
+  width: 163.35px;
+}
+
+.screen {
+  margin-bottom: 45px;
+  max-width: 360px;
+}
+
+.fixed-button {
+  bottom: 0;
+  height: 40px;
+  left: 12px;
+  position: fixed;
+  right: 20px;
+  width: 336px;
+}
