@@ -39,7 +39,7 @@ function Login() {
     if (isFormValid) {
       const user = { email };
       localStorage.setItem('user', JSON.stringify(user));
-      history.push('/receitas');
+      history.push('/meals');
     }
   };
 
