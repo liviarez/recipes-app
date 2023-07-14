@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+// import { act } from 'react-dom/test-utils';
 import { renderWithRouter } from '../helpers/renderWithRouter';
 import SearchBar from '../components/SearchBar';
 
@@ -89,13 +90,16 @@ describe('Verifica as funcionalidades do componente SearchBar', () => {
     expect(searchInput).toBeVisible();
   });
   // it('Verifica se o alerta é exibido corretamente para pesquisa com apenas um caractere', () => {
-  //   const alertMock = jest.spyOn(global, 'alert');
+  //   jest.spyOn(global, 'alert');
+  //   global.alert.mockImplementation(() => {});
   //   renderWithRouter(<SearchBar />);
   //   const searchButton = screen.getByTestId('exec-search-btn');
 
-  //   userEvent.click(searchButton);
-
-  //   expect(alertMock).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+  //   act(() => {
+  //     userEvent.type(screen.getByTestId('search-input'), 'abc');
+  //     userEvent.click(searchButton);
+  //     expect(global.alert).toBeCalled();
+  //   });
 
   //   alertMock.mockRestore();
   // });

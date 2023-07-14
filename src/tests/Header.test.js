@@ -4,6 +4,8 @@ import { screen } from '@testing-library/react';
 import { renderWithRouter } from '../helpers/renderWithRouter';
 import Header from '../components/Header';
 
+const titleTestId = 'page-title';
+
 describe('Verifica as funcionalidades do componente Header', () => {
   it('Verifica se o componente é renderizado na tela', () => {
     renderWithRouter(<Header />);
@@ -14,7 +16,7 @@ describe('Verifica as funcionalidades do componente Header', () => {
   it('Verifica se o componente renderiza o icone de perfil e o titulo', () => {
     renderWithRouter(<Header />);
     const profileIcon = screen.getByTestId('profile-top-btn');
-    const pageTitle = screen.getByTestId('page-title');
+    const pageTitle = screen.getByTestId(titleTestId);
     expect(profileIcon).toBeInTheDocument();
     expect(pageTitle).toBeInTheDocument();
   });
@@ -29,11 +31,11 @@ describe('Verifica as funcionalidades do componente Header', () => {
   // });
   // it('Verifica se o texto do título é renderizado corretamente com base na rota atual', () => {
   //   renderWithRouter(<Header />, { initialEntries: ['/meals'] });
-  //   const pageTitleMeals = screen.getByTestId('page-title');
+  //   const pageTitleMeals = screen.getByTestId(titleTestId);
   //   expect(pageTitleMeals.textContent).toBe('Meals');
 
   //   renderWithRouter(<Header />, { initialEntries: ['/drinks'] });
-  //   const pageTitleDrinks = screen.getByTestId('page-title');
+  //   const pageTitleDrinks = screen.getByTestId(titleTestId);
   //   expect(pageTitleDrinks.textContent).toBe('Drinks');
   // });
 });
