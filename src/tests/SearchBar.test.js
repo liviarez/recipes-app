@@ -1,7 +1,6 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import { act } from 'react-dom/test-utils';
 import { renderWithRouter } from '../helpers/renderWithRouter';
 import SearchBar from '../components/SearchBar';
 
@@ -89,18 +88,40 @@ describe('Verifica as funcionalidades do componente SearchBar', () => {
     const searchInput = screen.getByTestId(testIdSearchInput);
     expect(searchInput).toBeVisible();
   });
-  // it('Verifica se o alerta é exibido corretamente para pesquisa com apenas um caractere', () => {
-  //   jest.spyOn(global, 'alert');
-  //   global.alert.mockImplementation(() => {});
-  //   renderWithRouter(<SearchBar />);
-  //   const searchButton = screen.getByTestId('exec-search-btn');
+  it('Verifica se o alerta é exibido corretamente para pesquisa com apenas um caractere', async () => {
+    const mockAlert = jest.spyOn(global, 'alert').mockImplementation(() => {});
+    renderWithRouter(<SearchBar />);
+    const searchButton = screen.getByTestId(searchBtn);
+    expect(searchButton).toBeInTheDocument();
 
-  //   act(() => {
-  //     userEvent.type(screen.getByTestId('search-input'), 'abc');
-  //     userEvent.click(searchButton);
-  //     expect(global.alert).toBeCalled();
-  //   });
+    act(() => {
+      userEvent.type(screen.getByTestId(testIdSearchInput), 'abc');
+      userEvent.click(searchButton);
+    });
+    await waitFor(() => expect(mockAlert).toHaveBeenCalled());
+  });
+  it('Verifica se o alerta é exibido corretamente para pesquisa com mais de um caractere', async () => {
+    const mockAlert = jest.spyOn(global, 'alert').mockImplementation(() => {});
+    renderWithRouter(<SearchBar />);
+    const searchButton = screen.getByTestId(searchBtn);
+    expect(searchButton).toBeInTheDocument();
 
-  //   alertMock.mockRestore();
-  // });
+    act(() => {
+      userEvent.type(screen.getByTestId(testIdSearchInput), 'ab');
+      userEvent.click(searchButton);
+    });
+    await waitFor(() => expect(mockAlert).toHaveBeenCalled());
+  });
+  it('Verifica se o alerta é exibido corretamente para pesquisa com nenhum caractere', async () => {
+    const mockAlert = jest.spyOn(global, 'alert').mockImplementation(() => {});
+    renderWithRouter(<SearchBar />);
+    const searchButton = screen.getByTestId(searchBtn);
+    expect(searchButton).toBeInTheDocument();
+
+    act(() => {
+      userEvent.type(screen.getByTestId(testIdSearchInput), '');
+      userEvent.click(searchButton);
+    });
+    await waitFor(() => expect(mockAlert).toHaveBeenCalled());
+  });
 });
