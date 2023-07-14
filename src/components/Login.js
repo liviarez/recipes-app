@@ -35,12 +35,11 @@ function Login() {
     setIsFormValid(validateEmail(email) && validatePassword(newPassword));
   };
 
-  const savedStorage = () => {
-    if (isFormValid) {
-      const user = { email };
-      localStorage.setItem('user', JSON.stringify(user));
-      history.push('/meals');
-    }
+  const savedStorage = (event) => {
+    event.preventDefault();
+    const user = { email };
+    localStorage.setItem('user', JSON.stringify(user));
+    history.push('/meals');
   };
 
   // useEffect(() => {
