@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
   const location = useLocation();
+  const history = useHistory();
   const [searchVisible, setSearchVisible] = useState(false);
 
   const getPageTitle = () => {
@@ -23,6 +24,10 @@ function Header() {
     default:
       return '';
     }
+  };
+
+  const handleProfileClick = () => {
+    history.push('/profile');
   };
 
   const handleSearchClick = () => {
@@ -49,11 +54,17 @@ function Header() {
 
   return (
     <header>
-      <img
-        src={ profileIcon }
-        alt="Profile"
-        data-testid="profile-top-btn"
-      />
+      <button
+        type="button"
+        onClick={ handleProfileClick }
+        style={ { border: 'none', background: 'none', cursor: 'pointer' } }
+      >
+        <img
+          src={ profileIcon }
+          alt="Profile"
+          data-testid="profile-top-btn"
+        />
+      </button>
       {renderSearchIcon()}
       <h1 data-testid="page-title">{getPageTitle()}</h1>
       {searchVisible && <SearchBar />}
