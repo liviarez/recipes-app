@@ -8,7 +8,7 @@ function Profile() {
   const history = useHistory();
 
   useEffect(() => {
-    const { email } = JSON.parse(localStorage.getItem('user'));
+    const { email } = JSON.parse(localStorage.getItem('user') || '{}');
     setUserEmail(email);
   }, []);
 
