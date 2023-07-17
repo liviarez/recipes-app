@@ -1,41 +1,89 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from '../helpers/renderWithRouter';
+import { screen, render, act } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import Header from '../components/Header';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
-const titleTestId = 'page-title';
+const searchInputDataTestId = 'search-input';
 
-describe('Verifica as funcionalidades do componente Header', () => {
-  it('Verifica se o componente é renderizado na tela', () => {
-    renderWithRouter(<Header />);
-    const header = screen.getByTestId('profile-top-btn');
-    expect(header).toBeInTheDocument();
+describe('Header Component', () => {
+  it('Verifica a renderização do icone de Profile', () => {
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>,
+    );
+    const profileIconElement = screen.getByAltText('Profile');
+    expect(profileIconElement.src).toContain(profileIcon);
   });
 
-  it('Verifica se o componente renderiza o icone de perfil e o titulo', () => {
-    renderWithRouter(<Header />);
-    const profileIcon = screen.getByTestId('profile-top-btn');
-    const pageTitle = screen.getByTestId(titleTestId);
-    expect(profileIcon).toBeInTheDocument();
-    expect(pageTitle).toBeInTheDocument();
+  it('Verifica a renderização na rota /meals', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    const searchIconElement = screen.getByAltText('Search');
+    expect(searchIconElement.src).toContain(searchIcon);
   });
 
-  it('Verifica se a barra de pesquisa aparece na tela quando clicado no botão', () => {
-    renderWithRouter(<Header />);
-    const searchButton = screen.getByRole('img', { name: /search/i });
-    userEvent.click(searchButton);
-
-    const searchBar = screen.getByTestId('search-input');
-    expect(searchBar).toBeInTheDocument();
+  it('Verifica a renderização na rota /drinks', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/drinks'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    const searchIconElement = screen.getByAltText('Search');
+    expect(searchIconElement.src).toContain(searchIcon);
   });
-  it('Verifica se o texto do título é renderizado corretamente com base na rota atual', () => {
-    renderWithRouter(<Header />, { initialEntries: ['/meals'] });
-    const pageTitleMeals = screen.getByTestId(titleTestId);
-    expect(pageTitleMeals.textContent).toBe('Meals');
 
-    renderWithRouter(<Header />, { initialEntries: ['/drinks'] });
-    const pageTitleDrinks = screen.getByTestId(titleTestId);
-    expect(pageTitleDrinks.textContent).toBe('Drinks');
+  it('Verifica a não renderização do Profile Icon das outras rotas', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/profile'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByAltText('Search')).toBeNull();
+
+    render(
+      <MemoryRouter initialEntries={ ['/done-recipes'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByAltText('Search')).toBeNull();
+
+    render(
+      <MemoryRouter initialEntries={ ['/favorite-recipes'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByAltText('Search')).toBeNull();
+  });
+
+  it('Verifica a visibilidade da barra de pesquisa', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    const searchIconElement = screen.getByAltText('Search');
+    const searchBarElement = screen.queryByTestId(searchInputDataTestId);
+    expect(searchBarElement).toBeNull();
+
+    act(() => {
+      userEvent.click(searchIconElement);
+    });
+
+    const updatedSearchBarElement = screen.queryByTestId(searchInputDataTestId);
+    expect(updatedSearchBarElement).toBeInTheDocument();
+
+    act(() => {
+      userEvent.click(searchIconElement);
+    });
+
+    const hiddenSearchBarElement = screen.queryByTestId(searchInputDataTestId);
+    expect(hiddenSearchBarElement).toBeNull();
   });
 });
