@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import shareIcon from '../images/shareIcon.svg';
 
@@ -9,7 +9,7 @@ function DoneRecipes() {
   const [doneRecipe, setDoneRecipe] = useState([]);
   const [filter, setFilter] = useState('all');
   const [copied, setCopied] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
 
   useEffect(() => {
     const doneRecipesStorage = JSON.parse(localStorage.getItem('doneRecipes')) || [];
@@ -67,44 +67,44 @@ function DoneRecipes() {
       }, index) => (
         <div key={ index }>
           <Link to={ `/${type}s/${id}` }>
+            <h2 data-testid={ `${index}-horizontal-name` }>
+              {name}
+            </h2>
+          </Link>
+          <Link to={ `/${type}s/${id}` }>
             <img
               src={ image }
               alt={ name }
+              height="100px"
               data-testid={ `${index}-horizontal-image` }
             />
           </Link>
-          {/* <img
-            role="presentation"
-            src={ image }
-            alt={ name }
-            data-testid={ `${index}-horizontal-image` }
-            onClick={ () => history.push(`/${type}s/${id}`) }
-          /> */}
-          <h1
-            role="presentation"
-            data-testid={ `${index}-horizontal-name` }
-            onClick={ () => history.push(`/${type}s/${id}`) }
-          >
-            { name }
-          </h1>
-          <div data-testid={ `${index}-horizontal-top-text` }>
+          <p data-testid={ `${index}-horizontal-top-text` }>
             { type === 'meal' ? `${nationality} - ${category}` : alcoholicOrNot }
+          </p>
+          <div>
+            { tags.map((tagName, itemIndex) => (
+              <span
+                key={ itemIndex }
+                data-testid={ `${index}-${tagName}-horizontal-tag` }
+              >
+                -
+                { tagName }
+              </span>
+            )) }
           </div>
-          <div data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</div>
-          <img
-            role="presentation"
-            src={ shareIcon }
-            alt="share"
-            data-url={ `${type}s/${id}` }
-            onClick={ copyLink }
-            data-testid={ `${index}-horizontal-share-btn` }
-          />
+          <span data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</span>
+          <div>
+            <img
+              role="presentation"
+              src={ shareIcon }
+              alt="share"
+              data-url={ `${type}s/${id}` }
+              onClick={ copyLink }
+              data-testid={ `${index}-horizontal-share-btn` }
+            />
+          </div>
           { copied ? <span> Link copied! </span> : null }
-          { tags.map((tagName, itemIndex) => (
-            <span key={ itemIndex } data-testid={ `${index}-${tagName}-horizontal-tag` }>
-              { tagName }
-            </span>
-          )) }
         </div>
       ))}
     </div>
