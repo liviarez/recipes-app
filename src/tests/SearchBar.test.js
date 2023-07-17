@@ -3,7 +3,6 @@ import { screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from '../helpers/renderWithRouter';
 import SearchBar from '../components/SearchBar';
-import { getCurrentPage } from '../helpers/testUtils';
 
 const testIdSearchInput = 'search-input';
 const searchBtn = 'exec-search-btn';
