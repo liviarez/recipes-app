@@ -194,5 +194,3 @@ describe('Verifica as funcionalidades do componente DoneRecipes', () => {
     expect(history.location.pathname).toBe('/drinks/178319');
   });
 });
-
-// npm run test-coverage src/tests/DoneRecipes.test.js
