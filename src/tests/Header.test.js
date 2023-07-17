@@ -21,21 +21,21 @@ describe('Verifica as funcionalidades do componente Header', () => {
     expect(pageTitle).toBeInTheDocument();
   });
 
-  // it('Verifica se a barra de pesquisa aparece na tela quando clicado no botão', () => {
-  //   renderWithRouter(<Header />);
-  //   const searchButton = screen.getByRole('img', { name: /search/i });
-  //   userEvent.click(searchButton);
+  it('Verifica se a barra de pesquisa aparece na tela quando clicado no botão', () => {
+    renderWithRouter(<Header />);
+    const searchButton = screen.getByRole('img', { name: /search/i });
+    userEvent.click(searchButton);
 
-  //   const searchBar = screen.getByTestId('search-input');
-  //   expect(searchBar).toBeInTheDocument();
-  // });
-  // it('Verifica se o texto do título é renderizado corretamente com base na rota atual', () => {
-  //   renderWithRouter(<Header />, { initialEntries: ['/meals'] });
-  //   const pageTitleMeals = screen.getByTestId(titleTestId);
-  //   expect(pageTitleMeals.textContent).toBe('Meals');
+    const searchBar = screen.getByTestId('search-input');
+    expect(searchBar).toBeInTheDocument();
+  });
+  it('Verifica se o texto do título é renderizado corretamente com base na rota atual', () => {
+    renderWithRouter(<Header />, { initialEntries: ['/meals'] });
+    const pageTitleMeals = screen.getByTestId(titleTestId);
+    expect(pageTitleMeals.textContent).toBe('Meals');
 
-  //   renderWithRouter(<Header />, { initialEntries: ['/drinks'] });
-  //   const pageTitleDrinks = screen.getByTestId(titleTestId);
-  //   expect(pageTitleDrinks.textContent).toBe('Drinks');
-  // });
+    renderWithRouter(<Header />, { initialEntries: ['/drinks'] });
+    const pageTitleDrinks = screen.getByTestId(titleTestId);
+    expect(pageTitleDrinks.textContent).toBe('Drinks');
+  });
 });

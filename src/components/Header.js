@@ -6,6 +6,7 @@ import SearchBar from './SearchBar';
 
 function Header() {
   const location = useLocation();
+  const history = useHistory();
   const [searchVisible, setSearchVisible] = useState(false);
 
   const getPageTitle = () => {
