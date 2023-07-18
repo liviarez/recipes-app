@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Fetch from '../functions/Fetch';
+import Category from './Category';
 
 function Drinks() {
   const [recipes, setRecipes] = useState([]);
@@ -23,6 +24,7 @@ function Drinks() {
   return (
     <div>
       <Header />
+      <Category />
       {recipes.map((recipe, index) => (
         <div
           key={ recipe.idDrink }
