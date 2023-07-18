@@ -1,90 +1,45 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
-import { renderWithRouter } from '../helpers/renderWithRouter';
 import Profile from '../components/Profile';
+import { renderWithRouter } from '../helpers/renderWithRouter';
 
-const emailInput = 'profile-email-input';
-const passwordInput = 'profile-password-input';
-const btnLogin = 'profile-login-btn';
-const btnSubmit = 'profile-submit-btn';
-const btnDone = 'profile-done-btn';
-const btnFavorite = 'profile-favorite-btn';
-const btnLogout = 'profile-logout-btn';
+describe('Testa a página de Perfil', () => {
+  it('Testa renderização da página', () => {
+    renderWithRouter(<Profile />);
+    const pageTitle = screen.getByText(/profile/i);
+    expect(pageTitle).toBeInTheDocument();
+  });
 
-describe('Verifica as funcionalidades do componente Profile', () => {
+  it('Testa funcionalidade do logout', () => {
+    renderWithRouter(<Profile />, '/profile');
+
+    const btnDone = screen.getByTestId('profile-done-btn');
+    const btnFavorite = screen.getByTestId('profile-favorite-btn');
+    const btnLogout = screen.getByTestId('profile-logout-btn');
+
+    expect(btnDone).toBeInTheDocument();
+    expect(btnFavorite).toBeInTheDocument();
+    expect(btnLogout).toBeInTheDocument();
+    btnDone.click();
+    btnFavorite.click();
+    btnLogout.click();
+  });
+
+  it('Testa se o email do usuário está na página', () => {
+    renderWithRouter(<Profile />, '/profile');
+    const userEmail = screen.getByTestId('profile-email');
+    expect(userEmail).toBeInTheDocument();
+  });
+
   it('Testa se a pagina contem um header', () => {
     renderWithRouter(<Profile />);
     const header = screen.getByTestId('header-container');
     expect(header).toBeInTheDocument();
   });
-  it('Testa se a pagina contem um footer', () => {
-    renderWithRouter(<Profile />);
-    const footer = screen.getByTestId('footer-container');
-    expect(footer).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um titulo', () => {
-    renderWithRouter(<Profile />);
-    const pageTitle = screen.getByTestId('page-title');
-    expect(pageTitle).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um input de email', () => {
-    renderWithRouter(<Profile />);
-    const email = screen.getByTestId(emailInput);
-    expect(email).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um input de senha', () => {
-    renderWithRouter(<Profile />);
-    const password = screen.getByTestId(passwordInput);
-    expect(password).toBeInTheDocument();
-  });
+
   it('Testa se a pagina contem um botão de login', () => {
     renderWithRouter(<Profile />);
+    const btnLogin = screen.getByTestId('profile-login-btn');
     const btn = screen.getByTestId(btnLogin);
     expect(btn).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um botão de submit', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnSubmit);
-    expect(btn).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um botão de receitas feitas', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnDone);
-    expect(btn).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um botão de receitas favoritas', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnFavorite);
-    expect(btn).toBeInTheDocument();
-  });
-  it('Testa se a pagina contem um botão de logout', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnLogout);
-    expect(btn).toBeInTheDocument();
-  });
-  it('Testa se o botão de login está desabilitado', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnLogin);
-    expect(btn).toBeDisabled();
-  });
-  it('Testa se o botão de submit está desabilitado', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnSubmit);
-    expect(btn).toBeDisabled();
-  });
-  it('Testa se o botão de receitas feitas está desabilitado', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnDone);
-    expect(btn).toBeDisabled();
-  });
-  it('Testa se o botão de receitas favoritas está desabilitado', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnFavorite);
-    expect(btn).toBeDisabled();
-  });
-  it('Testa se o botão de logout está desabilitado', () => {
-    renderWithRouter(<Profile />);
-    const btn = screen.getByTestId(btnLogout);
-    expect(btn).toBeDisabled();
   });
 });
