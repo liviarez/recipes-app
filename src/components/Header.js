@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
@@ -49,11 +49,13 @@ function Header() {
 
   return (
     <header>
-      <img
-        src={ profileIcon }
-        alt="Profile"
-        data-testid="profile-top-btn"
-      />
+      <Link to="/profile">
+        <img
+          src={ profileIcon }
+          alt="Profile"
+          data-testid="profile-top-btn"
+        />
+      </Link>
       {renderSearchIcon()}
       <h1 data-testid="page-title">{getPageTitle()}</h1>
       {searchVisible && <SearchBar />}
