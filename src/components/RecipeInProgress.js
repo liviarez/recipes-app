@@ -16,6 +16,8 @@ export default function RecipeInProgress() {
   const idReceita = pathname.split('/')[2];
   const type = pathname.split('/')[1];
 
+  const strId = type === 'meals' ? 'idMeal' : 'idDrink';
+
   useEffect(() => {
     const fetchRecipe = async () => {
       let dataRequest;
@@ -33,6 +35,10 @@ export default function RecipeInProgress() {
       const recipeData = endPathname ? responseJson.meals[0] : responseJson.drinks[0];
       setRecipe(recipeData);
     };
+    const favorite = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const isFavoriteRecipe = favorite.some((fav) => fav.id === idReceita);
+    console.log(isFavoriteRecipe);
+    setIsFavorite(isFavoriteRecipe);
     fetchRecipe();
   }, [idReceita, pathname]);
 
@@ -53,6 +59,7 @@ export default function RecipeInProgress() {
 
   const strName = type === 'meals' ? 'strMeal' : 'strDrink';
   const strThumb = type === 'meals' ? 'strMealThumb' : 'strDrinkThumb';
+  const strType = type === 'meals' ? 'meal' : 'drink';
 
   const ingredients = [];
   const measures = [];
@@ -84,9 +91,9 @@ export default function RecipeInProgress() {
   const handleFavorite = () => {
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     const newFavorite = {
-      id: recipe[`id${type}`],
-      type,
-      area: recipe.strArea || '',
+      id: recipe[strId],
+      type: strType,
+      nationality: recipe.strArea || '',
       category: recipe.strCategory || '',
       alcoholicOrNot: recipe.strAlcoholic || '',
       name: recipe[strName],
