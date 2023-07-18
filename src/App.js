@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route
           exact
-          path="/meals/:id"
+          path="/meals/:idReceita"
           render={ (propsRouter) => (
             <RecipeDetails
               { ...propsRouter }
@@ -33,7 +33,7 @@ function App() {
         />
         <Route
           exact
-          path="/drinks/:id"
+          path="/drinks/:idReceita"
           render={ (propsRouter) => (
             <RecipeDetails
               { ...propsRouter }
