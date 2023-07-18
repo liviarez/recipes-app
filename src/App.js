@@ -9,6 +9,7 @@ import './App.css';
 import RecipeDetails from './pages/RecipeDetails';
 import DoneRecipes from './components/DoneRecipes';
 import FavoriteRecipes from './components/FavoriteRecipes';
+import RecipeInProgress from './components/RecipeInProgress';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route
           exact
-          path="/meals/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
+          path="/meals/:id"
           render={ (propsRouter) => (
             <RecipeDetails
               { ...propsRouter }
@@ -32,7 +33,7 @@ function App() {
         />
         <Route
           exact
-          path="/drinks/:idReceita" // a url que esta no readme da erro "/meals/:id-da-receita" pode dar erro na hora dos testes
+          path="/drinks/:id"
           render={ (propsRouter) => (
             <RecipeDetails
               { ...propsRouter }
@@ -41,6 +42,8 @@ function App() {
           ) }
         />
         <Route exact path="/receitas" component={ Meals } />
+        <Route path="/meals/:id/in-progress" component={ RecipeInProgress } />
+        <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
         <Route path="*" component={ Notfound } />
       </Switch>
     </main>
