@@ -181,7 +181,7 @@ export default function RecipeInProgress() {
       </button>
       <button
         type="button"
-        disabled={ allIngredientsChecked <= 2 }
+        disabled={ !allIngredientsChecked }
         data-testid="finish-recipe-btn"
       >
         Finalizar Receita
