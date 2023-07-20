@@ -113,7 +113,10 @@ function SearchBar() {
       {recipes.length > 0 && (
         <div>
           {recipes.slice(0, doze).map((recipe, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
+            <div
+              key={ recipe.idMeal || recipe.idDrink }
+              data-testid={ `${index}-recipe-card` }
+            >
               <img
                 src={ recipe.strMealThumb || recipe.strDrinkThumb }
                 alt="Recipe"
