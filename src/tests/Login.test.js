@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createMemoryHistory } from 'history';
+import { act } from 'react-dom/test-utils';
 import App from '../App';
 import { renderWithRouter } from '../helpers/renderWithRouter';
 
@@ -37,7 +37,7 @@ describe('Testando o componente Login', () => {
     expect(submitButton).not.toBeEnabled();
   });
   it('Verifica se o redirecionamento está funcionando corretamente', () => {
-    renderWithRouter(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const validEmail = 'emailvalido@email.123';
     const validPassword = '1234567';
@@ -46,13 +46,12 @@ describe('Testando o componente Login', () => {
     const inputPassword = screen.getByTestId(testIdPassword);
     const submitButton = screen.getByTestId(testIdSubmit);
 
-    userEvent.type(inputEmail, validEmail);
-    userEvent.type(inputPassword, validPassword);
-    userEvent.click(submitButton);
-
-    const history = createMemoryHistory();
-    history.push('/receitas');
+    act(() => {
+      userEvent.type(inputEmail, validEmail);
+      userEvent.type(inputPassword, validPassword);
+      userEvent.click(submitButton);
+    });
     const { pathname } = history.location;
-    expect(pathname).toBe('/receitas');
+    expect(pathname).toBe('/meals');
   });
 });

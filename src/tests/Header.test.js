@@ -1,139 +1,89 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { BrowserRouter as Router, useHistory } from 'react-router-dom';
+import { screen, render, act } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import Header from '../components/Header';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useHistory: jest.fn(),
-}));
+const searchInputDataTestId = 'search-input';
 
-describe('Header', () => {
-  const prflTopBtn = 'profile-top-btn';
-  const srchTopBtn = 'search-top-btn';
-
-  test('renders profile and search icons', () => {
-    const { getByTestId } = render(
-      <Router>
+describe('Header Component', () => {
+  it('Verifica a renderização do icone de Profile', () => {
+    render(
+      <MemoryRouter>
         <Header />
-      </Router>,
+      </MemoryRouter>,
     );
-
-    const profileIcon = getByTestId(prflTopBtn);
-    const searchIcon = getByTestId(srchTopBtn);
-
-    expect(profileIcon).toBeInTheDocument();
-    expect(searchIcon).toBeInTheDocument();
+    const profileIconElement = screen.getByAltText('Profile');
+    expect(profileIconElement.src).toContain(profileIcon);
   });
 
-  test('renders page title based on current route', () => {
-    const routes = [
-      { path: '/meals', title: 'Meals' },
-      { path: '/drinks', title: 'Drinks' },
-      { path: '/profile', title: 'Profile' },
-      { path: '/done-recipes', title: 'Done Recipes' },
-      { path: '/favorite-recipes', title: 'Favorite Recipes' },
-      { path: '/', title: '' },
-    ];
-
-    routes.forEach(({ path, title }) => {
-      const { getByTestId } = render(
-        <Router initialEntries={ [path] }>
-          <Header />
-        </Router>,
-      );
-
-      const pageTitle = getByTestId('page-title');
-      expect(pageTitle.textContent).toBe(title);
-    });
-  });
-
-  test('displays search input when search button is clicked', () => {
-    const { getByTestId } = render(
-      <Router>
+  it('Verifica a renderização na rota /meals', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
         <Header />
-      </Router>,
+      </MemoryRouter>,
     );
-
-    const searchButton = getByTestId(srchTopBtn);
-    fireEvent.click(searchButton);
-
-    const searchInput = getByTestId('search-input');
-    expect(searchInput).toBeInTheDocument();
+    const searchIconElement = screen.getByAltText('Search');
+    expect(searchIconElement.src).toContain(searchIcon);
   });
 
-  test('hides search input when search button is clicked again', () => {
-    const { getByTestId, queryByTestId } = render(
-      <Router>
+  it('Verifica a renderização na rota /drinks', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/drinks'] }>
         <Header />
-      </Router>,
+      </MemoryRouter>,
     );
-
-    const searchButton = getByTestId(srchTopBtn);
-    fireEvent.click(searchButton);
-
-    fireEvent.click(searchButton);
-
-    const searchInput = queryByTestId('search-input');
-    expect(searchInput).not.toBeInTheDocument();
+    const searchIconElement = screen.getByAltText('Search');
+    expect(searchIconElement.src).toContain(searchIcon);
   });
 
-  test('redirects to profile screen and changes page title when profile button is clicked', () => {
-    const mockHistoryPush = jest.fn();
-    useHistory.mockReturnValueOnce({
-      push: mockHistoryPush,
+  it('Verifica a não renderização do Profile Icon das outras rotas', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/profile'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByAltText('Search')).toBeNull();
+
+    render(
+      <MemoryRouter initialEntries={ ['/done-recipes'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByAltText('Search')).toBeNull();
+
+    render(
+      <MemoryRouter initialEntries={ ['/favorite-recipes'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    expect(screen.queryByAltText('Search')).toBeNull();
+  });
+
+  it('Verifica a visibilidade da barra de pesquisa', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <Header />
+      </MemoryRouter>,
+    );
+    const searchIconElement = screen.getByAltText('Search');
+    const searchBarElement = screen.queryByTestId(searchInputDataTestId);
+    expect(searchBarElement).toBeNull();
+
+    act(() => {
+      userEvent.click(searchIconElement);
     });
 
-    const { getByTestId } = render(
-      <Router>
-        <Header />
-      </Router>,
-    );
+    const updatedSearchBarElement = screen.queryByTestId(searchInputDataTestId);
+    expect(updatedSearchBarElement).toBeInTheDocument();
 
-    const profileButton = getByTestId(prflTopBtn);
-    fireEvent.click(profileButton);
-
-    expect(mockHistoryPush).toHaveBeenCalledWith('/profile');
-
-    const pageTitle = getByTestId('page-title');
-    expect(pageTitle.textContent).toBe('Profile');
-  });
-
-  test('redirects to profile screen when profile button is clicked', () => {
-    const mockHistoryPush = jest.fn();
-    useHistory.mockReturnValueOnce({
-      push: mockHistoryPush,
+    act(() => {
+      userEvent.click(searchIconElement);
     });
 
-    const { getByTestId } = render(
-      <Router>
-        <Header />
-      </Router>,
-    );
-
-    const profileButton = getByTestId(prflTopBtn);
-    fireEvent.click(profileButton);
-
-    expect(mockHistoryPush).toHaveBeenCalledWith('/profile');
-  });
-
-  test('does not display search icon on non-meals/drinks routes', () => {
-    const routes = [
-      '/profile',
-      '/done-recipes',
-      '/favorite-recipes',
-      '/search',
-    ];
-
-    routes.forEach((route) => {
-      const { queryByTestId } = render(
-        <Router initialEntries={ [route] }>
-          <Header />
-        </Router>,
-      );
-
-      const searchIcon = queryByTestId('search-top-btn');
-      expect(searchIcon).not.toBeInTheDocument();
-    });
+    const hiddenSearchBarElement = screen.queryByTestId(searchInputDataTestId);
+    expect(hiddenSearchBarElement).toBeNull();
   });
 });

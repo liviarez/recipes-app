@@ -23,7 +23,7 @@ export default function Recipes() {
       setCategories(filterCategory);
     };
     fetchCategory();
-  }, [isDrinksCategoryRoute, location.pathname]);
+  }, [isDrinksCategoryRoute, location.pathname, url]);
 
   /*   const handleCategoryButton = async ({ target: { name } }) => {
     }; */
