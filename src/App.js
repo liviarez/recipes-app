@@ -8,7 +8,6 @@ import './App.css';
 import RecipeDetails from './pages/RecipeDetails';
 import DoneRecipes from './components/DoneRecipes';
 import FavoriteRecipes from './components/FavoriteRecipes';
-import Recipes from './components/Recipes';
 import Drinks from './components/Drinks';
 import RecipeInProgress from './components/RecipeInProgress';
 
