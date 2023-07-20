@@ -4,20 +4,20 @@ import Login from './components/Login';
 import Notfound from './pages/Notfound';
 import Meals from './components/Meals';
 import Profile from './components/Profile';
-import Drinks from './components/Drinks';
 import './App.css';
 import RecipeDetails from './pages/RecipeDetails';
 import DoneRecipes from './components/DoneRecipes';
 import FavoriteRecipes from './components/FavoriteRecipes';
 import Recipes from './components/Recipes';
+import Drinks from './components/Drinks';
 
 function App() {
   return (
     <main>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route exact path="/meals" component={ Recipes } />
-        <Route exact path="/drinks" component={ Recipes } />
+        <Route exact path="/meals" component={ Meals } />
+        <Route exact path="/drinks" component={ Drinks } />
         <Route exact path="/profile" component={ Profile } />
         <Route exact path="/done-recipes" component={ DoneRecipes } />
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
