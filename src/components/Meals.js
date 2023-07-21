@@ -42,6 +42,7 @@ function Meals() {
               alt=""
               src={ recipe.strMealThumb }
               data-testid={ `${index}-card-img` }
+              width={ 200 }
             />
           </div>
         ))

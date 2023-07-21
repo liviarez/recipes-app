@@ -41,6 +41,7 @@ function Drinks() {
             alt=""
             src={ recipe.strDrinkThumb }
             data-testid={ `${index}-card-img` }
+            width={ 200 }
           />
         </div>
       ))}
