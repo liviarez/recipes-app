@@ -121,6 +121,7 @@ function SearchBar() {
                 src={ recipe.strMealThumb || recipe.strDrinkThumb }
                 alt="Recipe"
                 data-testid={ `${index}-card-img` }
+                width={ 200 }
               />
               <p data-testid={ `${index}-card-name` }>
                 {recipe.strMeal || recipe.strDrink}
