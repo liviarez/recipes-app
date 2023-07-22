@@ -24,7 +24,7 @@ function Meals() {
   return (
     <div>
       <Header />
-      <Category />
+      <Category setRecipes={ setRecipes } />
       {
         recipes.map((recipe, index) => (
           <div
